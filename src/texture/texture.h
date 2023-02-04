@@ -9,5 +9,6 @@
 namespace TextureSystem
 {
 void CreateRect(TextureComponent &t);
-void CreateTexture(TextureComponent &t, const RenderComponent &r);
+void CreateTexture(TextureComponent &t, RenderComponent &r, const char *filename);
+TextureComponent ExtractSprite(TextureComponent &t);
 } // namespace TextureSystem
