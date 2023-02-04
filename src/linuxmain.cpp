@@ -55,24 +55,8 @@ int main(const int argc, const char **argv)
 
     // do update and render stuff
     WindowSystem::Run(window, renderer);
-
-    try
-    {
-        RenderSystem::Quit(renderer);
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << '\n';
-    }
-
-    try
-    {
-        WindowSystem::Quit(window);
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << '\n';
-    }
+    RenderSystem::Quit(renderer);
+    WindowSystem::Quit(window);
 
     SDL_Quit();
 
