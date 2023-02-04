@@ -17,7 +17,11 @@
 
 static WindowComponent window;
 static RenderComponent renderer;
-
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Does ECS architecture actually make sense for window and renderer,  *
+ * and does it make sense I declared them as global statics            *
+ * since there's only supposed to be one of each?                      *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 int main(const int argc, const char **argv)
 {
     if (argc)
