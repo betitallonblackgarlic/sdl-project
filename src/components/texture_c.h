@@ -9,9 +9,7 @@ struct TextureComponent
 {
     SDL_Texture *texture_ = nullptr;
     SDL_Rect src_rect_;
-
-    int sheet_x_ = 0;
-    int sheet_y_ = 0;
+    SDL_Rect dest_rect_;
 
     int padding_ = 0;
 };

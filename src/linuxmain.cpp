@@ -11,9 +11,9 @@
 #include <exception>
 #include <iostream>
 
-#include "renderer/renderer.h"
-#include "texture/texture.h"
-#include "window/window.h"
+#include "renderer/renderer_s.h"
+#include "texture/texture_s.h"
+#include "window/window_s.h"
 
 static WindowComponent window;
 static RenderComponent renderer;
@@ -29,8 +29,8 @@ int main(const int argc, const char **argv)
         // do arg stuff
     }
 
-    int exit_code = EXIT_SUCCESS;
-
+    // no need for custom exceptions, functions can have different problems
+    // so for simplicity they print internally and throw std::runtime_error(SDL_Error())
     try
     {
         if (SDL_Init(SDL_INIT_EVERYTHING))
@@ -38,54 +38,23 @@ int main(const int argc, const char **argv)
             printf("SDL failed to initialize. SDL_Error: ");
             throw std::runtime_error(SDL_GetError());
         }
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << '\n';
-
-        exit_code = EXIT_FAILURE;
-    }
-    try
-    {
         if (!(IMG_Init(renderer.imgFlags_) && renderer.imgFlags_))
         {
             printf("Failed to initialize SDL_image. IMG_Error: ");
             throw std::runtime_error(IMG_GetError());
         }
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << '\n';
-
-        exit_code = EXIT_FAILURE;
-    }
-
-    try
-    {
         WindowSystem::Init(window);
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << '\n';
-
-        exit_code = EXIT_FAILURE;
-    }
-    try
-    {
         RenderSystem::Init(renderer, window);
     }
     catch (const std::exception &e)
     {
         std::cerr << e.what() << '\n';
 
-        exit_code = EXIT_FAILURE;
+        return EXIT_FAILURE;
     }
 
     // do update and render stuff
-    if (!exit_code)
-    {
-        WindowSystem::Run(window, renderer);
-    }
+    WindowSystem::Run(window, renderer);
 
     try
     {
@@ -107,5 +76,5 @@ int main(const int argc, const char **argv)
 
     SDL_Quit();
 
-    return exit_code;
+    return EXIT_SUCCESS;
 }

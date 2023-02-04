@@ -1,4 +1,4 @@
-OBJS := input.o
+OBJS := input_s.o
 
 all : $(OBJS)
 
