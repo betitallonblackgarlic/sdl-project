@@ -7,15 +7,15 @@ LDFLAGS :=
 LIBS := 	`sdl2-config --libs` \
 					-lSDL2_image \
 					-lSDL2_ttf \
-					-lSDL2_mixer
-
+					-lSDL2_mixer \
+					
 SRC := src
 
 export OUT := linuxmain
-export OBJOUT := $(CWD)/objs
+export OBJOUT := '$(CWD)/objs'
 
 all :
-	@ mkdir -p $(OBJOUT)
+	@ mkdir -p /$(OBJOUT)
 	$(MAKE) -C $(SRC)
 	$(CXX) $(CFLAGS) $(CXXFLAGS) $(OBJOUT)/*.o -o $(OUT) $(LIBS)
 

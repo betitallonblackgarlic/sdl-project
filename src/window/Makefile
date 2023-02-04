@@ -1,4 +1,4 @@
-OBJS := System.o
+OBJS := window.o
 
 all : $(OBJS)
 
