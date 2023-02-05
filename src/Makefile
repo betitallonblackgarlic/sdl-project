@@ -5,7 +5,7 @@ HDRS := components/input_c.h \
 
 $(OUT).o : $(OUT).cpp $(HDRS)
 	$(MAKE) -C window
-	$(MAKE) -C renderer
+	$(MAKE) -C render
 	$(MAKE) -C input
 	$(MAKE) -C texture
 	$(CXX) $(CFLAGS) $(CXXFLAGS) -c $< -o $(OBJOUT)/$@

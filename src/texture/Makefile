@@ -1,4 +1,5 @@
-OBJS := texture_s.o
+OBJS := texture_s.o \
+		texture_m.o
 
 all : $(OBJS)
 

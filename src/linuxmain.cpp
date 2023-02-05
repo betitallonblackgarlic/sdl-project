@@ -1,6 +1,6 @@
 /**
  * @file linuxmain.cpp
- * @author your name (you@domain.com)
+ * @author Bill Black (william.black@colorado.edu)
  * @brief
  * @version 0.1
  * @date 2023-02-01
@@ -8,15 +8,15 @@
  * @copyright Copyright (c) 2023
  *
  */
-#include <exception>
 #include <iostream>
 
-#include "renderer/renderer_s.h"
-#include "texture/texture_s.h"
-#include "window/window_s.h"
+#include "window/window_m.h"
 
-static WindowComponent window;
-static RenderComponent renderer;
+// there's only ever one window, and should only be one window
+// so is this okay to make it a static global? is this a singleton?
+// I want to practice different usages and implementations
+static WindowManager window_mgr;
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Does ECS architecture actually make sense for window and renderer,  *
  * and does it make sense I declared them as global statics            *
@@ -29,36 +29,9 @@ int main(const int argc, const char **argv)
         // do arg stuff
     }
 
-    // no need for custom exceptions, functions can have different problems
-    // so for simplicity they print internally and throw std::runtime_error(SDL_Error())
-    try
-    {
-        if (SDL_Init(SDL_INIT_EVERYTHING))
-        {
-            printf("SDL failed to initialize. SDL_Error: ");
-            throw std::runtime_error(SDL_GetError());
-        }
-        if (!(IMG_Init(renderer.imgFlags_) && renderer.imgFlags_))
-        {
-            printf("Failed to initialize SDL_image. IMG_Error: ");
-            throw std::runtime_error(IMG_GetError());
-        }
-        WindowSystem::Init(window);
-        RenderSystem::Init(renderer, window);
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << '\n';
-
-        return EXIT_FAILURE;
-    }
-
-    // do update and render stuff
-    WindowSystem::Run(window, renderer);
-    RenderSystem::Quit(renderer);
-    WindowSystem::Quit(window);
-
-    SDL_Quit();
+    window_mgr.Run();
 
     return EXIT_SUCCESS;
 }
+
+// maybe add arg handling or whatever to make the main function look like an actual function
