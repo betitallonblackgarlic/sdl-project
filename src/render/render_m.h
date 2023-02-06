@@ -3,14 +3,12 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_render.h>
 
-#include "../components/render_c.h"
-#include "../components/window_c.h"
 #include "../texture/texture_m.h"
 
 class RenderManager final
 {
   private:
-    RenderComponent render_c;
+    SDL_Renderer *renderer_;
     SDL_Window *&window_;
 
     // initialized here until i find a reason to initialize from an actual variable
@@ -20,5 +18,5 @@ class RenderManager final
   public:
     RenderManager(SDL_Window *&w);
     ~RenderManager();
-    void Render();
+    SDL_Renderer *get_context() const;
 };

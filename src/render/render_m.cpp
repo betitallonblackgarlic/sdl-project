@@ -1,28 +1,37 @@
+#include <iostream>
 #include <stdexcept>
 
 #include "render_m.h"
 
 RenderManager::RenderManager(SDL_Window *&w) : window_(w)
 {
-    render_c.renderer_ = SDL_CreateRenderer(window_, idx, render_flags);
-    if (!render_c.renderer_)
+    try
     {
-        printf("SDL failed to create rendering context. SDL_Error: ");
-        throw std::runtime_error(SDL_GetError());
+        renderer_ = SDL_CreateRenderer(window_, idx, render_flags);
+        if (!renderer_)
+        {
+            throw std::runtime_error(SDL_GetError());
+        }
+    }
+    catch (std::exception &e)
+    {
+        std::cerr << "SDL failed to create rendering context. SDL_Error: ";
+        std::cerr << e.what() << '\n';
     }
 }
 
 RenderManager::~RenderManager()
 {
-    SDL_DestroyRenderer(render_c.renderer_);
-    if (!render_c.renderer_)
+    SDL_DestroyRenderer(renderer_);
+    if (!renderer_)
     {
-        printf("SDL failed to destroy rendering context. Continuing shutdown. SDL_Error: %s\n", SDL_GetError());
+        std::cerr << "SDL failed to destroy rendering context. Continuing shutdown. SDL_Error: " << SDL_GetError()
+                  << '\n';
     }
-    render_c.renderer_ = nullptr;
+    renderer_ = nullptr;
 }
 
-void RenderManager::Render()
+SDL_Renderer *RenderManager::get_context() const
 {
-    static TextureManager texture_mgr(render_c.renderer_);
+    return renderer_;
 }

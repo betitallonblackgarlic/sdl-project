@@ -26,9 +26,8 @@ class TextureManager final
 
     int img_flags = IMG_INIT_PNG;
 
-    TextureComponent *pool_;
 
   public:
-    TextureManager(SDL_Renderer *&r);
+    TextureManager(SDL_Renderer *r);
     ~TextureManager();
 };

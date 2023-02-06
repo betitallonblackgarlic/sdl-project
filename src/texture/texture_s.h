@@ -4,7 +4,6 @@
 #include <SDL2/SDL_rect.h>
 
 #include "../components/texture_c.h"
-#include "../components/render_c.h"
 
 namespace TextureSystem
 {
