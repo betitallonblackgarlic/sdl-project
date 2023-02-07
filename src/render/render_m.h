@@ -4,6 +4,7 @@
 #include <SDL2/SDL_render.h>
 
 #include "../texture/texture_m.h"
+#include "../components/draw_c.h"
 
 class RenderManager final
 {
@@ -18,5 +19,6 @@ class RenderManager final
   public:
     RenderManager(SDL_Window *&w);
     ~RenderManager();
+    void Render(TextureComponent &t, DrawComponent &d);
     SDL_Renderer *get_context() const;
 };

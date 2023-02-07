@@ -2,19 +2,6 @@
 
 #include "texture_s.h"
 
-Sheet operator++(Sheet &s, int)
-{
-    if (s == Sheet::total_sheets)
-    {
-        return s;
-    }
-    else
-    {
-        s = static_cast<Sheet>(static_cast<int>(s) + 1);
-        return s;
-    }
-}
-
 namespace TextureSystem
 {
 

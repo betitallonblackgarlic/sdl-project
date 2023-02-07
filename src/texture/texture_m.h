@@ -8,11 +8,12 @@
 
 #include "texture_s.h"
 
-using namespace TextureSystem;
-
 class TextureManager final
 {
   private:
+  // eventually make this scripted stuff so the thing
+  // doesn't have to be recompiled all the time and can
+  // be used as an engine
     enum class tex_sheet
     {
         EVERYTHING,
@@ -23,6 +24,7 @@ class TextureManager final
     };
     // texture arrays
     SDL_Renderer *&renderer_;
+    TextureComponent *pool_;
 
     int img_flags = IMG_INIT_PNG;
 
@@ -30,4 +32,5 @@ class TextureManager final
   public:
     TextureManager(SDL_Renderer *r);
     ~TextureManager();
+    void Initialize();
 };

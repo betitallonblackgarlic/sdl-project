@@ -31,6 +31,11 @@ RenderManager::~RenderManager()
     renderer_ = nullptr;
 }
 
+void RenderManager::Render(TextureComponent &t, DrawComponent &d)
+{
+    SDL_RenderCopy(renderer_, t.texture_, &t.src_, &d.dest_);
+} 
+
 SDL_Renderer *RenderManager::get_context() const
 {
     return renderer_;

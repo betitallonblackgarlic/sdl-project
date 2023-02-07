@@ -23,3 +23,7 @@ TextureManager::~TextureManager()
 {
     IMG_Quit();
 }
+
+void TextureManager::Initialize()
+{
+}
