@@ -1,7 +1,7 @@
 export CXX := g++-11
 CWD := $(PWD)
 
-export CXXFLAGS := `sdl2-config --cflags` -g --std=c++17 -Wall -Werror
+export CXXFLAGS := `sdl2-config --cflags` -g --std=c++17 -Wall 
 LDFLAGS := 
 
 LIBS := 	`sdl2-config --libs` \

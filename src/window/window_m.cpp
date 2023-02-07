@@ -5,7 +5,6 @@
 
 #include "../render/render_m.h"
 #include "../texture/texture_m.h"
-#include "../memory/memory_m.h"
 
 WindowManager::WindowManager()
 try
@@ -38,16 +37,13 @@ WindowManager::~WindowManager()
     {
         std::cerr << "SDL failed to destroy window. SDL_Error: " << SDL_GetError() << '\n';
     }
+    std::cout << "SDL quitting\n";
     window_ = nullptr;
     SDL_Quit();
 }
 
 void WindowManager::Run()
 {
-    static RenderManager render_mgr(window_);
-    static TextureManager texture_mgr(render_mgr.get_context());
-    StackAllocator<TextureComponent> textures(sizeof(TextureComponent) * 1000);
-
     SDL_Event e;
 
     int frames_per_second = 60;
@@ -57,8 +53,6 @@ void WindowManager::Run()
 
     double current_time = SDL_GetTicks64() / 1000.0;
     double accumulator = 0.0;
-
-    textures.Allocate(10);
 
     while (running_)
     {
@@ -82,7 +76,6 @@ void WindowManager::Run()
                 running_ = false;
                 break;
             case SDL_KEYDOWN:
-                textures.Deallocate();
                 break;
             default:
                 break;
