@@ -10,7 +10,7 @@
 class WindowManager final
 {
   private:
-    int scalar = 4;
+    int scalar = 3;
     SDL_DisplayMode dMode_{.w = 224 * scalar, .h = 288 * scalar};
     SDL_Window *window_;
 

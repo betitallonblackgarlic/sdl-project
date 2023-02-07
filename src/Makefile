@@ -6,4 +6,5 @@ $(OUT).o : $(OUT).cpp $(HDRS)
 	$(MAKE) -C render
 	$(MAKE) -C input
 	$(MAKE) -C texture
+	$(MAKE) -C memory
 	$(CXX) $(CFLAGS) $(CXXFLAGS) -c $< -o $(OBJOUT)/$@
