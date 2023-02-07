@@ -33,4 +33,5 @@ class TextureManager final
     TextureManager(SDL_Renderer *r);
     ~TextureManager();
     void Initialize();
+    void Deinitialize();
 };

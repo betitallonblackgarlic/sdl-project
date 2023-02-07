@@ -1,6 +1,9 @@
 #pragma once
 
 #include <stddef.h>
+#include <iostream>
+
+#include "../components/texture_c.h"
 
 class MemoryManager
 {
@@ -30,14 +33,27 @@ template <typename T> class StackAllocator
     void *stack_;
     T *top_;
 
-    size_t size_;
+    const size_t size_;
+
+    void IncrementTop();
+    T *GetTop() const;
+    void DecrementTop();
 
   public:
-    StackAllocator(size_t size);
+    StackAllocator(const size_t size);
     ~StackAllocator();
 
     inline void *operator new(size_t nbytes);
+
     inline void operator delete(void *p);
+
+    void Clear()
+    {
+        top_ = reinterpret_cast<T*>(stack_);
+    }
+
+    void Allocate(int num);
+    void Deallocate();
 };
 
 /**
@@ -57,3 +73,64 @@ template <typename T> class PoolAllocator
 
   public:
 };
+
+template <typename T> void *StackAllocator<T>::operator new(size_t nbytes)
+{
+    T *newObject = GetTop();
+    IncrementTop();
+    return newObject;
+}
+
+template <typename T> void StackAllocator<T>::operator delete(void *p)
+{
+    if (p)
+    {
+        if (T* t = GetTop())
+        {
+            t->dealloc(p);
+        }
+        else
+        {
+            free(p);
+        }
+    }
+    DecrementTop();
+}
+
+template <typename T> StackAllocator<T>::StackAllocator(const size_t size) : size_(size)
+{
+    try
+    {
+        stack_ = aligned_alloc(sizeof(T), size);
+        top_ = reinterpret_cast<T*>(stack_);
+        if (!stack_)
+        {
+            throw std::runtime_error("bad thing happened and memory couldn't allocate");
+        }
+    }
+    catch (std::runtime_error &e)
+    {
+        free(stack_);
+        std::cerr << e.what() << '\n';
+    }
+}
+
+template <typename T> StackAllocator<T>::~StackAllocator()
+{
+    Deallocate();
+}
+
+template <typename T> void StackAllocator<T>::Allocate(int num)
+{
+    TextureComponent *p;
+    for (int i = 0 ; i < num ; ++i)
+        p = new(top_) TextureComponent();
+    p->src_ = SDL_Rect();
+}
+
+template <typename T> void StackAllocator<T>::Deallocate()
+{
+    Clear();
+    free(stack_);
+    stack_ = nullptr;
+}

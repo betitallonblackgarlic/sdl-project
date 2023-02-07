@@ -14,38 +14,19 @@ MemoryManager::~MemoryManager()
 {
 }
 
-template <typename T> StackAllocator<T>::StackAllocator(size_t size)
-try
+template <typename T> void StackAllocator<T>::IncrementTop()
 {
-    stack_ = aligned_alloc(sizeof(T), size);
-    top_ = reinterpret_cast<T>(stack_);
-    if (!stack_)
-    {
-        throw std::runtime_error("bad thing happened and memory couldn't allocate");
-    }
-}
-catch (std::runtime_error &e)
-{
-    free(stack_);
-    std::cerr << e.what() << '\n';
+    top_++;
 }
 
-template <typename T> StackAllocator<T>::~StackAllocator()
+template <typename T> T *StackAllocator<T>::GetTop() const
 {
-    free(stack_);
-    stack_ = nullptr;
+    return top_;
 }
 
-template <typename T> void *StackAllocator<T>::operator new(size_t nbytes)
+template <typename T> void StackAllocator<T>::DecrementTop()
 {
-    T *newObject = top_;
-    top_ += nbytes;
-    return newObject;
-}
-
-template <typename T> void StackAllocator<T>::operator delete(void *p)
-{
-    top_ -= sizeof(T);
+    top_--;
 }
 
 template <typename T> PoolAllocator<T>::PoolAllocator(size_t size)

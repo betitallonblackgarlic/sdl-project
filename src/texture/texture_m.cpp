@@ -3,6 +3,8 @@
 
 #include "texture_m.h"
 
+#include "../memory/memory_m.h"
+
 TextureManager::TextureManager(SDL_Renderer *r) : renderer_(r)
 {
     try

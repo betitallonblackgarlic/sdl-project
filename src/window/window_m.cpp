@@ -5,6 +5,7 @@
 
 #include "../render/render_m.h"
 #include "../texture/texture_m.h"
+#include "../memory/memory_m.h"
 
 WindowManager::WindowManager()
 try
@@ -45,6 +46,7 @@ void WindowManager::Run()
 {
     static RenderManager render_mgr(window_);
     static TextureManager texture_mgr(render_mgr.get_context());
+    StackAllocator<TextureComponent> textures(sizeof(TextureComponent) * 1000);
 
     SDL_Event e;
 
@@ -55,6 +57,8 @@ void WindowManager::Run()
 
     double current_time = SDL_GetTicks64() / 1000.0;
     double accumulator = 0.0;
+
+    textures.Allocate(10);
 
     while (running_)
     {
@@ -78,6 +82,7 @@ void WindowManager::Run()
                 running_ = false;
                 break;
             case SDL_KEYDOWN:
+                textures.Deallocate();
                 break;
             default:
                 break;
