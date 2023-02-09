@@ -3,7 +3,9 @@
 #include <glm/glm.hpp>
 #include <SDL2/SDL_rect.h>
 
-struct DrawComponent
+#include "component_c.h"
+
+struct DrawComponent : public Component
 {
     SDL_Rect dest_;
 };

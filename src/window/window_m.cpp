@@ -15,7 +15,8 @@ try
         throw std::runtime_error(SDL_GetError());
     }
     window_ =
-        SDL_CreateWindow(title_.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, dMode_.w, dMode_.h, wFlags_);
+        SDL_CreateWindow(title_.c_str(), SDL_WINDOWPOS_CENTERED,
+                         SDL_WINDOWPOS_CENTERED, dMode_.w, dMode_.h, wFlags_);
     if (!window_)
     {
         std::cerr << "SDL failed to create window. SDL_Error: ";
@@ -35,15 +36,16 @@ WindowManager::~WindowManager()
     SDL_DestroyWindow(window_);
     if (!window_)
     {
-        std::cerr << "SDL failed to destroy window. SDL_Error: " << SDL_GetError() << '\n';
+        std::cerr << "SDL failed to destroy window. SDL_Error: "
+                  << SDL_GetError() << '\n';
     }
-    std::cout << "SDL quitting\n";
     window_ = nullptr;
     SDL_Quit();
 }
 
 void WindowManager::Run()
 {
+    static RenderManager rend(window_);
     SDL_Event e;
 
     int frames_per_second = 60;

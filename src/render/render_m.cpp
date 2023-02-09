@@ -29,7 +29,6 @@ RenderManager::~RenderManager()
                   << '\n';
     }
     renderer_ = nullptr;
-    std::cout << "Render quitting\n";
 }
 
 void RenderManager::Render(TextureComponent &t, DrawComponent &d)

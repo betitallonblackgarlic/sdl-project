@@ -10,12 +10,12 @@
  */
 #include <iostream>
 
-#include "memory/memory_m.h"
+#include "memory/pool_alloc.h"
+#include "window/window_m.h"
 // there's only ever one window, and should only be one window
 // so is this okay to make it a static global? is this a singleton?
 // I want to practice different usages and implementations
-const int MB = 1<<20;
-static MemoryManager mgr(30*MB);
+static WindowManager wnd;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Does ECS architecture actually make sense for window and renderer,  *
  * and does it make sense I declared them as global statics            *
@@ -27,8 +27,12 @@ int main(const int argc, const char **argv)
     {
         // do arg stuff
     }
+    PoolAlloc<size_t> pool(10);
+    pool.Allocate(5);
+
+    wnd.Run();
 
     return EXIT_SUCCESS;
 }
-
-// maybe add arg handling or whatever to make the main function look like an actual function
+// maybe add arg handling or whatever to make the main function look like an
+// actual function

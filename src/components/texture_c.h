@@ -5,7 +5,9 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_rect.h>
 
-struct TextureComponent
+#include "component_c.h"
+
+struct TextureComponent : public Component
 {
     SDL_Texture *texture_ = nullptr;
     SDL_Rect src_;

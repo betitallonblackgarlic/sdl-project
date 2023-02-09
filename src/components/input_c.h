@@ -2,6 +2,8 @@
 
 #include <SDL2/SDL_events.h>
 
+#include "component_c.h"
+
 enum class Player
 {
     player1,
@@ -9,9 +11,7 @@ enum class Player
     total_players
 };
 
-extern Player operator++(Player &p, int);
-
-struct InputComponent
+struct InputComponent : public Component
 {
     Player player_;
     const Uint8 *key_state;

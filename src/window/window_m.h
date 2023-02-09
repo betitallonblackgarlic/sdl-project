@@ -2,8 +2,6 @@
 
 #include <SDL2/SDL.h>
 
-#include "../memory/memory_m.h"
-
 /**
  * @brief Core management class that manages the window as well as
  * orchaestration of other top-level managers
@@ -22,9 +20,6 @@ class WindowManager final
     int wFlags_;
 
     bool running_ = true;
-
-    void *alloc(size_t nbytes);
-    void dealloc(void *p);
 
   public:
     WindowManager();

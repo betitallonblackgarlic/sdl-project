@@ -5,7 +5,6 @@
 class InputManager final
 {
   private:
-    InputComponent *pool_;
 
   public:
     InputManager();
