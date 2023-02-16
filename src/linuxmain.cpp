@@ -8,29 +8,35 @@
  * @copyright Copyright (c) 2023
  *
  */
+#include "manager/render/render_m.h"
+#include "manager/texture/texture_m.h"
+#include "manager/window/window_m.h"
+
 #include <iostream>
 
-#include "memory/pool_alloc.h"
-#include "window/window_m.h"
-// there's only ever one window, and should only be one window
+// there's only ever one window or memory manager
+// and should only be one of either
 // so is this okay to make it a static global? is this a singleton?
 // I want to practice different usages and implementations
-static WindowManager wnd;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Does ECS architecture actually make sense for window and renderer,  *
  * and does it make sense I declared them as global statics            *
  * since there's only supposed to be one of each?                      *
+ * they don't really need management or tracking since                 *
+ * tthey're always in use so i'm assuming no                           *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 int main(const int argc, const char **argv)
 {
+    static WindowManager wnd_mgr;
+    static RenderManager rnd_mgr(wnd_mgr.GetWindow());
+    static TextureManager tex_mgr(rnd_mgr.GetContext());
+    
     if (argc)
     {
         // do arg stuff
     }
-    PoolAlloc<size_t> pool(10);
-    pool.Allocate(5);
 
-    wnd.Run();
+    wnd_mgr.Run(&rnd_mgr, &tex_mgr);
 
     return EXIT_SUCCESS;
 }
