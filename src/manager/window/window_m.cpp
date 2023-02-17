@@ -19,11 +19,6 @@ try
         std::cerr << "SDL failed to create window. SDL_Error: ";
         throw std::runtime_error(SDL_GetError());
     }
-    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
-    {
-        std::cerr << "Mixer failed to initialize. Mixer_Error: ";
-        throw std::runtime_error(Mix_GetError());
-    }
 }
 catch (const std::exception &e)
 {
@@ -42,7 +37,6 @@ WindowManager::~WindowManager()
                   << SDL_GetError() << '\n';
     }
     window_ = nullptr;
-    Mix_Quit();
     IMG_Quit();
     SDL_Quit();
 }
@@ -54,29 +48,6 @@ void WindowManager::Run(RenderManager *r_mgr, TextureManager *t_mgr)
 
     _tex->LoadTextures();
     auto textures = _tex->GetTextures();
-
-    Mix_Music *_music = nullptr;
-    Mix_Chunk *_wakkawakka1 = nullptr;
-    Mix_Chunk *_wakkawakka2 = nullptr;
-
-    _music = Mix_LoadMUS("assets/game_start.wav");
-    if (!_music) { printf("Failed to load music: %s\n", Mix_GetError()); }
-
-    _wakkawakka1 = Mix_LoadWAV("assets/munch_1.wav");
-    if (!_wakkawakka1)
-    {
-        printf("Failed to load wakkawakka1: %s\n", Mix_GetError());
-    }
-
-    _wakkawakka2 = Mix_LoadWAV("assets/munch_2.wav");
-    if (!_wakkawakka2)
-    {
-        printf("Failed to load wakkawakka2: %s\n", Mix_GetError());
-    }
-
-    Mix_Chunk *_chunks[2];
-    _chunks[0] = _wakkawakka2;
-    _chunks[1] = _wakkawakka1;
 
     SDL_Event e;
 
@@ -111,22 +82,11 @@ void WindowManager::Run(RenderManager *r_mgr, TextureManager *t_mgr)
                     running_ = false;
                     break;
                 case SDL_KEYDOWN:
-                    if (!Mix_PlayingMusic()) { Mix_PlayMusic(_music, 1); }
-                    else
-                    {
-                        if (Mix_PausedMusic()) { Mix_ResumeMusic(); }
-                        else { (Mix_PauseMusic()); }
-                    }
                     break;
                 default:
                     break;
             }
         }
-
-        Mix_PlayChannel(-1, _chunks[frame % 2], 0);
-        frame++;
-        if (frame % 2) { SDL_Delay(100); }
-        else { SDL_Delay(150); }
 
         while (accumulator >= dt)
         {
@@ -140,6 +100,4 @@ void WindowManager::Run(RenderManager *r_mgr, TextureManager *t_mgr)
         for (auto t : textures) { _rend->Render(t, _d); }
         _rend->DisplayScene();
     }
-
-    Mix_FreeMusic(_music);
 }

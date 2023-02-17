@@ -23,7 +23,8 @@
  * and does it make sense I declared them as global statics            *
  * since there's only supposed to be one of each?                      *
  * they don't really need management or tracking since                 *
- * tthey're always in use so i'm assuming no                           *
+ * tthey're always in use so i'm as
+ *suming no                           *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 int main(const int argc, const char **argv)
 {
