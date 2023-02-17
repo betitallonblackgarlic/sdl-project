@@ -1,13 +1,13 @@
 export CXX := g++-11
 CWD := $(PWD)
 
-export CXXFLAGS := `sdl2-config --cflags` -g --std=c++17 -Wall 
+export CXXFLAGS := `sdl2-config --cflags --libs` -g --std=c++17 -Wall -Werror
 LDFLAGS := 
 
 LIBS := 	`sdl2-config --libs` \
-					-lSDL2_image \
-					-lSDL2_ttf \
-					-lSDL2_mixer \
+					# -lSDL2_image \
+					# -lSDL2_ttf \
+					# -lSDL2_mixer \
 					
 SRC := src
 

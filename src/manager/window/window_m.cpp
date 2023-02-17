@@ -6,15 +6,15 @@
 WindowManager::WindowManager()
 try
 {
-    if (SDL_Init(sdl_flags))
+    if (SDL_Init(_sdl_flags))
     {
         std::cerr << "SDL failed to initialize. SDL_Error: ";
         throw std::runtime_error(SDL_GetError());
     }
-    window_ =
-        SDL_CreateWindow(title_.c_str(), SDL_WINDOWPOS_CENTERED,
-                         SDL_WINDOWPOS_CENTERED, dMode_.w, dMode_.h, wFlags_);
-    if (!window_)
+    _window = SDL_CreateWindow(_title.c_str(), SDL_WINDOWPOS_CENTERED,
+                               SDL_WINDOWPOS_CENTERED, _d_mode.w, _d_mode.h,
+                               _w_flags);
+    if (!_window)
     {
         std::cerr << "SDL failed to create window. SDL_Error: ";
         throw std::runtime_error(SDL_GetError());
@@ -30,36 +30,27 @@ catch (const std::exception &e)
 
 WindowManager::~WindowManager()
 {
-    SDL_DestroyWindow(window_);
-    if (!window_)
+    SDL_DestroyWindow(_window);
+    if (!_window)
     {
         std::cerr << "SDL failed to destroy window. SDL_Error: "
                   << SDL_GetError() << '\n';
     }
-    window_ = nullptr;
-    IMG_Quit();
+    _window = nullptr;
     SDL_Quit();
 }
 
-void WindowManager::Run(RenderManager *r_mgr, TextureManager *t_mgr)
+void WindowManager::Run()
 {
-    _rend = r_mgr;
-    _tex = t_mgr;
-
-    _tex->LoadTextures();
-    auto textures = _tex->GetTextures();
-
     SDL_Event e;
 
-    int frames_per_second = 60;
+    double frames_per_second = 60.0;
 
     double t = 0.0;
     double dt = 1.0 / frames_per_second;
 
     double current_time = SDL_GetTicks64() / 1000.0;
     double accumulator = 0.0;
-
-    int frame = 0;
 
     while (running_)
     {
@@ -70,8 +61,6 @@ void WindowManager::Run(RenderManager *r_mgr, TextureManager *t_mgr)
         current_time = new_time;
 
         accumulator += frame_time;
-
-        _rend->PrepareScene();
 
         while (SDL_PollEvent(&e))
         {
@@ -97,7 +86,5 @@ void WindowManager::Run(RenderManager *r_mgr, TextureManager *t_mgr)
 
         // const double alpha = accumulator / dt;
         // TODO: interpolation, update, render
-        for (auto t : textures) { _rend->Render(t, _d); }
-        _rend->DisplayScene();
     }
 }

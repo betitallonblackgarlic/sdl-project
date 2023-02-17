@@ -3,11 +3,11 @@
 #include <iostream>
 #include <stdexcept>
 
-RenderManager::RenderManager(SDL_Window *w) : _window(w)
+RenderManager::RenderManager(SDL_Window *window)
 {
     try
     {
-        _renderer = SDL_CreateRenderer(_window, idx, render_flags);
+        _renderer = SDL_CreateRenderer(window, idx, render_flags);
         if (!_renderer) { throw std::runtime_error(SDL_GetError()); }
         SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
     }
@@ -15,6 +15,8 @@ RenderManager::RenderManager(SDL_Window *w) : _window(w)
     {
         std::cerr << "SDL failed to create rendering context. SDL_Error: ";
         std::cerr << e.what() << '\n';
+
+        throw e;
     }
 }
 

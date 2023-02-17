@@ -14,8 +14,8 @@
 
 #include <iostream>
 
-// there's only ever one window or memory manager
-// and should only be one of either
+// there's only ever one window or memory or texture manager
+// and should only be one of any of them
 // so is this okay to make it a static global? is this a singleton?
 // I want to practice different usages and implementations
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -28,16 +28,14 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 int main(const int argc, const char **argv)
 {
-    static WindowManager wnd_mgr;
-    static RenderManager rnd_mgr(wnd_mgr.GetWindow());
-    static TextureManager tex_mgr(rnd_mgr.GetContext());
-    
+    WindowManager wnd_mgr;
+
     if (argc)
     {
         // do arg stuff
     }
 
-    wnd_mgr.Run(&rnd_mgr, &tex_mgr);
+    wnd_mgr.Run();
 
     return EXIT_SUCCESS;
 }

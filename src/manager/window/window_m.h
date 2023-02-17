@@ -13,26 +13,20 @@
 class WindowManager final
 {
   private:
-    const int scalar = 3;
-    SDL_DisplayMode dMode_{.w = 224 * scalar, .h = 288 * scalar};
-    SDL_Window *window_;
+    const int _scalar = 3;
+    
+    SDL_DisplayMode _d_mode{.w = 224 * _scalar, .h = 288 * _scalar};
+    SDL_Window *_window = nullptr;
 
-    RenderManager *_rend;
-    TextureManager *_tex;
+    std::string _title = "Window";
 
-    DrawComponent _d;
-
-    std::string title_ = "Hello!";
-
-    int sdl_flags = SDL_INIT_EVERYTHING;
-    int wFlags_;
+    int _sdl_flags = SDL_INIT_EVERYTHING;
+    int _w_flags = SDL_WINDOW_SHOWN;
 
     bool running_ = true;
 
   public:
     WindowManager();
     ~WindowManager();
-    void Run(RenderManager *r, TextureManager *t);
-
-    SDL_Window *GetWindow() { return window_; }
+    void Run();
 };

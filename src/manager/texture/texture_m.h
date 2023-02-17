@@ -17,5 +17,4 @@ class TextureManager
 
     void LoadTextures();
     std::vector<TextureComponent *> &GetTextures() { return _sheets; }
-
 };

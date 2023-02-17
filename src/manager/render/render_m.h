@@ -11,7 +11,6 @@ class RenderManager final
 {
   private:
     SDL_Renderer *_renderer;
-    SDL_Window *&_window;
 
     // initialized here until i find a reason to initialize from an actual
     // variable
@@ -19,7 +18,7 @@ class RenderManager final
     int render_flags = SDL_RENDERER_ACCELERATED;
 
   public:
-    RenderManager(SDL_Window *w);
+    RenderManager(SDL_Window *window);
     ~RenderManager();
     void PrepareScene();
     void Render(TextureComponent *t, DrawComponent &d);
