@@ -1,9 +1,10 @@
-
-#include <SDL2/SDL.h>
-#include <string>
+#pragma once
 
 #include "../render/render_m.h"
 #include "../texture/texture_m.h"
+
+#include <SDL2/SDL.h>
+#include <string>
 
 /**
  * @brief Core management class that manages the window as well as
@@ -13,20 +14,25 @@
 class WindowManager final
 {
   private:
-    const int _scalar = 3;
-    
-    SDL_DisplayMode _d_mode{.w = 224 * _scalar, .h = 288 * _scalar};
-    SDL_Window *_window = nullptr;
+    SDL_DisplayMode _d_mode;
+    SDL_Window *_window;
 
-    std::string _title = "Window";
+    std::string _title;
 
-    int _sdl_flags = SDL_INIT_EVERYTHING;
-    int _w_flags = SDL_WINDOW_SHOWN;
+    int _sdl_flags;
+    int _w_flags;
+    int _scalar;
 
-    bool running_ = true;
+    bool _running;
 
   public:
     WindowManager();
     ~WindowManager();
+
+    SDL_Window *GetWindow() { return _window; }
+
+    WindowManager(const WindowManager &) = delete;
+    void operator=(const WindowManager &) = delete;
+
     void Run();
 };

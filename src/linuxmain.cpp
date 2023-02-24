@@ -8,8 +8,6 @@
  * @copyright Copyright (c) 2023
  *
  */
-#include "manager/render/render_m.h"
-#include "manager/texture/texture_m.h"
 #include "manager/window/window_m.h"
 
 #include <iostream>
@@ -28,14 +26,14 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 int main(const int argc, const char **argv)
 {
-    WindowManager wnd_mgr;
-
     if (argc)
     {
         // do arg stuff
     }
 
-    wnd_mgr.Run();
+    static WindowManager w_mgr;
+
+    w_mgr.Run();
 
     return EXIT_SUCCESS;
 }

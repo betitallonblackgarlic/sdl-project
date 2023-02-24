@@ -1,8 +1,5 @@
 #pragma once
 
-#include "../../component/draw_c.h"
-#include "../../component/texture_c.h"
-
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_render.h>
 #include <vector>
@@ -21,7 +18,6 @@ class RenderManager final
     RenderManager(SDL_Window *window);
     ~RenderManager();
     void PrepareScene();
-    void Render(TextureComponent *t, DrawComponent &d);
     void DisplayScene();
     SDL_Renderer *GetContext() { return _renderer; }
 };

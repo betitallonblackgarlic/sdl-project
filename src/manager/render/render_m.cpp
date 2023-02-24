@@ -34,12 +34,4 @@ RenderManager::~RenderManager()
 
 void RenderManager::PrepareScene() { SDL_RenderClear(_renderer); }
 
-void RenderManager::Render(TextureComponent *t, DrawComponent &d)
-{
-    if (SDL_RenderCopy(_renderer, t->texture, NULL, NULL))
-    {
-        printf("SDL ERROR: %s\n", SDL_GetError());
-    }
-}
-
 void RenderManager::DisplayScene() { SDL_RenderPresent(_renderer); }
