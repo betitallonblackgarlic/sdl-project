@@ -45,28 +45,13 @@ WindowManager::~WindowManager()
     SDL_Quit();
 }
 
+// moving main loop out of WindowManager class (into GameState class?)
 void WindowManager::Run()
 {
     SDL_Event e;
 
-    double frames_per_second = 60.0;
-
-    double t = 0.0;
-    double dt = 1.0 / frames_per_second;
-
-    double current_time = SDL_GetTicks64() / 1000.0;
-    double accumulator = 0.0;
-
     while (_running)
     {
-        double new_time = SDL_GetTicks64() / 1000.0;
-        double frame_time = new_time - current_time;
-
-        if (frame_time > 0.25) { frame_time = 0.25; }
-        current_time = new_time;
-
-        accumulator += frame_time;
-
         while (SDL_PollEvent(&e))
         {
             // TODO: input
@@ -75,21 +60,10 @@ void WindowManager::Run()
                 case SDL_QUIT:
                     _running = false;
                     break;
-                case SDL_KEYDOWN:
-                    break;
                 default:
                     break;
             }
         }
-
-        while (accumulator >= dt)
-        {
-            // TODO: integration of state
-            t += dt;
-            accumulator -= dt;
-        }
-
-        // const double alpha = accumulator / dt;
-        // TODO: interpolation, update, render
     }
 }
+
