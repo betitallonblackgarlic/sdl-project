@@ -8,7 +8,8 @@
  * @copyright Copyright (c) 2023
  *
  */
-#include "manager/window/window_m.h"
+#include "window/window.h"
+#include "game/game.h"
 
 #include <iostream>
 
@@ -35,9 +36,11 @@ int main(const int argc, const char **argv)
     /* TODO: maybe do config stuff for window parameters
     Won't need lazy in that case since the execution order is now linear */
 
-    static WindowManager w_mgr;
+    static Window gWindow;
+    static Game gGame;
 
-    w_mgr.Run();
+    gGame.Run();
+    
 
     return EXIT_SUCCESS;
 }
