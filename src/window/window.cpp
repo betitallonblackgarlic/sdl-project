@@ -6,7 +6,7 @@
 Window::Window()
     : _dMode(SDL_DisplayMode{.w = 224 * 3, .h = 288 * 3}), _window(nullptr),
       _title("Window"), _sdlFlags(SDL_INIT_EVERYTHING),
-      _wFlags(SDL_WINDOW_SHOWN), _scalar(3), _running(true)
+      _wFlags(SDL_WINDOW_SHOWN), _scalar(3)
 {
     try
     {

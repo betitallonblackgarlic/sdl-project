@@ -2,30 +2,25 @@
 
 bool Game::_running = true;
 
+Game::~Game()
+{
+    // do stuff maybe
+}
+
 void Game::Run()
 {
     SDL_Event e;
 
     while (_running)
     {
+        // prepareScene();
         while (SDL_PollEvent(&e))
         {
             // TODO: input
-            switch (e.type)
-            {
-                case SDL_QUIT:
-                    _running = false;
-                    break;
-                case SDL_KEYDOWN:
-                    // handle keydown
-                    break;
-                case SDL_KEYUP:
-                    // handle keyup
-                    break;
-                // do mouse stuff eventually
-                default:
-                    break;
-            }
+            Input::DoInput(e, _running);
         }
+        // update();
+        // presentScene();
     }
 }
+

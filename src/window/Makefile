@@ -1,4 +1,4 @@
-OBJS := window_m.o
+OBJS := window.o
 
 all : $(OBJS)
 

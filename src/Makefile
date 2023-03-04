@@ -1,4 +1,5 @@
 $(OUT).o : $(OUT).cpp
-	$(MAKE) -C manager
 	$(MAKE) -C window
+	$(MAKE) -C game
+	$(MAKE) -C input
 	$(CXX) $(CFLAGS) $(CXXFLAGS) -c $< -o $(OBJOUT)/$@
