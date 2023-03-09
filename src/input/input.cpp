@@ -9,24 +9,39 @@ Uint8 Input::_tail = 0;
 
 KeyState Input::_state;
 
-void Input::DoInput(const SDL_Event &e, bool &running)
+void Input::DoInput(const SDL_Event &e, glm::vec2 &currPos, glm::vec2 &velocity,
+                    bool &running)
 {
-    // auto scancode = e.key.keysym.scancode;
+    auto key = e.key.keysym.sym;
     switch (e.type)
     {
         case SDL_QUIT:
             running = false;
             break;
-        default:
-            try
+        case SDL_KEYDOWN:
+            switch (key)
             {
-                // Input::enqueue(e.type, scancode);
+                case SDLK_DOWN:
+                    velocity.y = 2;
+                    velocity.x = 0;
+                    currPos.y += velocity.y;
+                    break;
+                case SDLK_UP:
+                    velocity.y = -2;
+                    velocity.x = 0;
+                    currPos.y += velocity.y;
+                    break;
+                case SDLK_LEFT:
+                    velocity.x = -2;
+                    velocity.y = 0;
+                    currPos.x += velocity.x;
+                    break;
+                case SDLK_RIGHT:
+                    velocity.x = 2;
+                    velocity.y = 0;
+                    currPos.x += velocity.x;
+                    break;
             }
-            catch (const std::exception &e)
-            {
-                std::cerr << e.what() << '\n';
-            }
-
             break;
     }
 }

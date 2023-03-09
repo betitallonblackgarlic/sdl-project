@@ -17,17 +17,20 @@ Game::~Game()
 void Game::Run()
 {
     SDL_Event e;
-    Uint64 framerate = 30;
-    Vec2 prevpos;
-    Vec2 pacpos;
-    pacpos.x = 16;
-    pacpos.y = 16;
+    Uint64 framerate = 300;
+    glm::vec2 prevPos;
+    glm::vec2 currPos;
+    double velocity = 5.0 * framerate / 1000.0;
+    currPos.x = 16;
+    currPos.y = 16;
 
     auto start = SDL_GetTicks64();
     double t = 0.0;
     double dt = 1000.0 / framerate;
+    glm::vec2 pacVelocity{velocity * dt, velocity * dt};
     double accumulator = 0.0;
-    _renderer.Update(pacpos);
+
+    _renderer.Update(currPos, prevPos, t);
 
     while (_running)
     {
@@ -41,24 +44,22 @@ void Game::Run()
         while (SDL_PollEvent(&e))
         {
             // TODO: input
-            Input::DoInput(e, _running);
+            Input::DoInput(e, currPos, pacVelocity, _running);
+
+            while (accumulator >= dt)
+            {
+                // do integration stuff so updates
+                // only happen every 1 / FPSth second
+                prevPos = currPos;
+
+                _renderer.Integrate(pacVelocity, t, dt);
+
+                t += dt;
+                accumulator -= dt;
+            }
         }
 
-        while (accumulator >= dt)
-        {
-            // do integration stuff so updates
-            // only happen every 1 / FPSth second
-            prevpos = pacpos;
-            pacpos.x += 60 * dt / 1000;
-
-            _renderer.Integrate(pacpos, t, dt);
-            std::cout << t << '\n';
-
-            t += dt;
-            accumulator -= dt;
-        }
-
-        _renderer.Update(pacpos);
+        _renderer.Update(currPos, prevPos, t);
         _renderer.PrepareScene();
         _renderer.DisplayScene();
     }

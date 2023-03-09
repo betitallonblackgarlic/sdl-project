@@ -2,6 +2,7 @@
 #define MAX_EVENTS 16
 
 #include <SDL2/SDL_events.h>
+#include <glm/glm.hpp>
 
 struct KeyState
 {
@@ -28,5 +29,6 @@ class Input final
                                // to pass input to other systems
 
   public:
-    static void DoInput(const SDL_Event &e, bool &running);
+    static void DoInput(const SDL_Event &e, glm::vec2 &currPos,
+                        glm::vec2 &velocity, bool &running);
 };
