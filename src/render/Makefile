@@ -1,4 +1,4 @@
-OBJS := render_m.o
+OBJS := render.o
 
 all : $(OBJS)
 

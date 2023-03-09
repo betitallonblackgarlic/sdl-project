@@ -5,7 +5,7 @@ export CXXFLAGS := `sdl2-config --cflags --libs` -g --std=c++17 -Wall -Werror
 LDFLAGS := 
 
 LIBS := 	`sdl2-config --libs` \
-					# -lSDL2_image \
+					-lSDL2_image \
 					# -lSDL2_ttf \
 					# -lSDL2_mixer \
 					

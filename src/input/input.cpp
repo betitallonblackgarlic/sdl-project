@@ -7,9 +7,11 @@
 Uint8 Input::_head = 0;
 Uint8 Input::_tail = 0;
 
+KeyState Input::_state;
+
 void Input::DoInput(const SDL_Event &e, bool &running)
 {
-    auto scancode = e.key.keysym.scancode;
+    // auto scancode = e.key.keysym.scancode;
     switch (e.type)
     {
         case SDL_QUIT:
@@ -18,7 +20,7 @@ void Input::DoInput(const SDL_Event &e, bool &running)
         default:
             try
             {
-                Input::enqueue(e.type, scancode);
+                // Input::enqueue(e.type, scancode);
             }
             catch (const std::exception &e)
             {
@@ -29,39 +31,36 @@ void Input::DoInput(const SDL_Event &e, bool &running)
     }
 }
 
-void Input::enqueue(const Uint32 type, const SDL_Scancode code)
-{
-    if ((_tail + 1) % MAX_EVENTS == _head)
-    {
-        throw std::logic_error("queue full");
-    }
+// void Input::enqueue(const Uint32 type, const SDL_Scancode code)
+// {
+//     if ((_tail + 1) % MAX_EVENTS == _head)
+//     {
+//         throw std::logic_error("queue full");
+//     }
 
-    _state._keyreleased[code] = 0; // reset released keys every frame
+//     _state._keyreleased[code] = 0; // reset released keys every frame
 
-    switch (type)
-    {
-        case SDL_KEYDOWN:
-            // reset pressed key if key already down
-            _state._keypressed[code] = !_state._keydown[code];
-            // set key to down which will set keypressed to 0
-            // until keydown is toggled by release
-            _state._keydown[code] = 1;
-            break;
-        case SDL_KEYUP:
-            _state._keyreleased[code] = 1;
-            _state._keydown[code] = 0;
+//     switch (type)
+//     {
+//         case SDL_KEYDOWN:
+//             // reset pressed key if key already down
+//             _state._keypressed[code] = !_state._keydown[code];
+//             // set key to down which will set keypressed to 0
+//             // until keydown is toggled by release
+//             _state._keydown[code] = 1;
+//             break;
+//         case SDL_KEYUP:
+//             _state._keyreleased[code] = 1;
+//             _state._keydown[code] = 0;
 
-            break;
-    }
-    _queue[_head].type = type;
-    _queue[_head].code = code;
-}
+//             break;
+//     }
+// }
 
-KeyState Input::dequeue()
-{
-    if (_head == _tail) { throw std::logic_error("queue empty"); }
+// KeyState Input::dequeue()
+// {
+//     if (_head == _tail) { throw std::logic_error("queue empty"); }
+//     _head = (_head + 1) % MAX_EVENTS;
 
-    KeyState state = _queue[_head];
-    _head = (_head + 1) % MAX_EVENTS;
-    return state;
-}
+//     return _state;
+// }

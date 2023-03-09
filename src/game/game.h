@@ -13,13 +13,16 @@
 
 #include "../input/input.h"
 #include "../window/window.h"
+#include "../render/render.h"
 
 #include <SDL2/SDL_events.h>
+#include <SDL2/SDL_timer.h>
 
 class Game final
 {
   private:
     SDL_Window *_window;
+    RenderManager _renderer;
 
   protected:
     static bool _running;
@@ -29,11 +32,9 @@ class Game final
     // I'm just using that for setup parameters
     // potentially from config files if I get that far
   public:
-    Game(SDL_Window *w) : _window(w) {}
+    Game(SDL_Window *w);
     ~Game();
     void Run();
     Game(const Game &g) = delete;
     Game operator=(const Game &g) = delete;
-
-    friend class Input;
 };
