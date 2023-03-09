@@ -43,6 +43,8 @@ void Input::DoInput(const SDL_Event &e, glm::vec2 &currPos, glm::vec2 &velocity,
                     break;
             }
             break;
+        default:
+            break;
     }
 }
 
